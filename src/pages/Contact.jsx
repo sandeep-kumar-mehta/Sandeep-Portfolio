@@ -72,6 +72,7 @@ function Contact() {
           <form
             onSubmit={handleSubmit}
             className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-lg"
+            method="post"
           >
             {/* Honeypot */}
             <input
