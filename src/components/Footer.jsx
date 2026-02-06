@@ -43,7 +43,7 @@ function Footer() {
         {/* Right: Social Icons */}
         <div className="flex justify-center md:justify-end gap-6 text-xl">
           <a
-            href="https://github.com/sandeepkrmehta"
+            href="https://github.com/sandeep-kumar-mehta"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"

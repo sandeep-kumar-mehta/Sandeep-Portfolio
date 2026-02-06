@@ -1,15 +1,34 @@
 import ScrollReveal from "../components/ScrollReveal";
 
+const highlights = [
+  {
+    title: "Java",
+    subtitle: "Backend Development",
+  },
+  {
+    title: "Spring Boot",
+    subtitle: "REST APIs",
+  },
+  {
+    title: "React",
+    subtitle: "Frontend UI",
+  },
+  {
+    title: "MySQL",
+    subtitle: "Database",
+  },
+];
+
 function About() {
   return (
-    <ScrollReveal>
-      <section
-        id="about"
-        className="bg-gray-800 py-20 text-gray-300"
-      >
-        <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+    <section
+      id="about"
+      className="bg-gray-800 py-20 text-gray-300"
+    >
+      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
 
-          {/* Left Content */}
+        {/* Left Content */}
+        <ScrollReveal direction="left">
           <div>
             <h2 className="text-3xl font-bold text-white mb-6">
               About Me
@@ -33,9 +52,9 @@ function About() {
               </span>.
             </p>
 
-            {/* Year Duration */}
             <p className="mb-4 text-sm text-gray-400">
-              Academic Duration: <span className="text-gray-300">2021 – 2025</span>
+              Academic Duration:{" "}
+              <span className="text-gray-300">2021 – 2025</span>
             </p>
 
             <p className="leading-relaxed">
@@ -45,33 +64,31 @@ function About() {
               and industry best practices.
             </p>
           </div>
+        </ScrollReveal>
 
-          {/* Right Highlights */}
-          <div className="grid grid-cols-2 gap-6">
-            <div className="bg-gray-900 p-6 rounded-xl text-center hover:scale-105 transition">
-              <h3 className="text-2xl font-bold text-blue-400">Java</h3>
-              <p className="mt-2 text-sm">Backend Development</p>
-            </div>
-
-            <div className="bg-gray-900 p-6 rounded-xl text-center hover:scale-105 transition">
-              <h3 className="text-2xl font-bold text-blue-400">Spring Boot</h3>
-              <p className="mt-2 text-sm">REST APIs</p>
-            </div>
-
-            <div className="bg-gray-900 p-6 rounded-xl text-center hover:scale-105 transition">
-              <h3 className="text-2xl font-bold text-blue-400">React</h3>
-              <p className="mt-2 text-sm">Frontend UI</p>
-            </div>
-
-            <div className="bg-gray-900 p-6 rounded-xl text-center hover:scale-105 transition">
-              <h3 className="text-2xl font-bold text-blue-400">MySQL</h3>
-              <p className="mt-2 text-sm">Database</p>
-            </div>
-          </div>
-
+        {/* Right Highlights */}
+        <div className="grid grid-cols-2 gap-6">
+          {highlights.map((item, index) => (
+            <ScrollReveal
+              key={index}
+              delay={index * 120}
+              direction="right"
+            >
+              <div className="bg-gray-900 p-6 rounded-xl text-center
+                              hover:scale-105 transition">
+                <h3 className="text-2xl font-bold text-blue-400">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm">
+                  {item.subtitle}
+                </p>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
-      </section>
-    </ScrollReveal>
+
+      </div>
+    </section>
   );
 }
 

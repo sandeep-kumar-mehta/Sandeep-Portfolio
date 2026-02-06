@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import ScrollReveal from "../components/ScrollReveal";
 
 function Contact() {
   const [form, setForm] = useState({
@@ -8,7 +9,6 @@ function Contact() {
     message: "",
     website: "", // honeypot
   });
-
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -28,15 +28,11 @@ function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 🛑 Honeypot check
-    if (form.website) {
-      return; // silently fail for bots
-    }
+    if (form.website) return; // honeypot
 
     const validationErrors = validate();
     setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length !== 0) return;
+    if (Object.keys(validationErrors).length) return;
 
     setLoading(true);
 
@@ -47,12 +43,11 @@ function Contact() {
     formData.append("message", form.message);
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
       });
-
-      const data = await response.json();
+      const data = await res.json();
 
       if (data.success) {
         toast.success("Message sent successfully!");
@@ -68,80 +63,88 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="bg-gray-900 py-20">
-      <div className="max-w-3xl mx-auto px-6 text-white">
-        <h2 className="text-3xl font-bold mb-8">Contact Me</h2>
+    <ScrollReveal>
+      <section id="contact" className="bg-gray-900 py-20">
+        <div className="max-w-3xl mx-auto px-6 text-white">
 
-        <form
-          onSubmit={handleSubmit}
-          className="space-y-6 bg-gray-800 p-8 rounded-xl"
-        >
-          {/* Honeypot (Hidden Field) */}
-          <input
-            type="text"
-            name="website"
-            value={form.website}
-            onChange={handleChange}
-            className="hidden"
-            tabIndex="-1"
-            autoComplete="off"
-          />
+          <h2 className="text-3xl font-bold mb-8">Contact Me</h2>
 
-          {/* Name */}
-          <div>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-lg"
+          >
+            {/* Honeypot */}
             <input
               type="text"
-              name="name"
-              placeholder="Your Name"
-              value={form.name}
+              name="website"
+              value={form.website}
               onChange={handleChange}
-              className="w-full p-3 bg-gray-900 rounded outline-none"
+              className="hidden"
+              tabIndex="-1"
+              autoComplete="off"
             />
-            {errors.name && (
-              <p className="text-red-400 text-sm mt-1">{errors.name}</p>
-            )}
-          </div>
 
-          {/* Email */}
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              value={form.email}
-              onChange={handleChange}
-              className="w-full p-3 bg-gray-900 rounded outline-none"
-            />
-            {errors.email && (
-              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
-            )}
-          </div>
+            {/* Name */}
+            <div className="relative">
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="Your Name"
+                className="peer w-full p-4 bg-gray-900 rounded outline-none border border-gray-700
+                           focus:border-blue-400 transition"
+              />
+              {errors.name && (
+                <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+              )}
+            </div>
 
-          {/* Message */}
-          <div>
-            <textarea
-              name="message"
-              rows="5"
-              placeholder="Your Message"
-              value={form.message}
-              onChange={handleChange}
-              className="w-full p-3 bg-gray-900 rounded outline-none"
-            />
-            {errors.message && (
-              <p className="text-red-400 text-sm mt-1">{errors.message}</p>
-            )}
-          </div>
+            {/* Email */}
+            <div className="relative">
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                className="peer w-full p-4 bg-gray-900 rounded outline-none border border-gray-700
+                           focus:border-blue-400 transition"
+              />
+              {errors.email && (
+                <p className="text-red-400 text-sm mt-1">{errors.email}</p>
+              )}
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-500 hover:bg-blue-600 transition px-6 py-3 rounded"
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </button>
-        </form>
-      </div>
-    </section>
+            {/* Message */}
+            <div className="relative">
+              <textarea
+                name="message"
+                rows="5"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Your Message"
+                className="peer w-full p-4 bg-gray-900 rounded outline-none border border-gray-700
+                           focus:border-blue-400 transition resize-none"
+              />
+              {errors.message && (
+                <p className="text-red-400 text-sm mt-1">{errors.message}</p>
+              )}
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-500 hover:bg-blue-600 transition px-6 py-3 rounded font-semibold
+                         disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+        </div>
+      </section>
+    </ScrollReveal>
   );
 }
 
